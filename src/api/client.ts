@@ -38,6 +38,15 @@ export interface CheckoutRequest {
   coupon: string;
 }
 
+function isCart(value: unknown): value is Cart {
+  return typeof value === "object" &&
+    value !== null &&
+    "items" in value &&
+    Array.isArray(value.items) &&
+    "version" in value &&
+    typeof value.version === "number";
+}
+
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "/",
   timeout: 10_000,
@@ -119,7 +128,10 @@ export async function updateFavorite(artworkId: string, favorite: boolean) {
 }
 
 export async function fetchCart(signal?: AbortSignal) {
-  const { data } = await apiClient.get<Cart>("api/cart", { signal });
+  const { data } = await apiClient.get<unknown>("api/cart", { signal });
+  if (!isCart(data)) {
+    throw new Error("A API retornou um carrinho inválido. Verifique a configuração do build e da API.");
+  }
   return data;
 }
 

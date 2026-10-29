@@ -99,7 +99,7 @@ function SiteHeader({
   const sessionQueryResult = useQuery(sessionQuery);
   const cartQueryResult = useQuery(cartQuery);
   const user = sessionQueryResult.data?.user;
-  const cartItemCount = cartQueryResult.data?.items.reduce((count, item) => count + item.quantity, 0) ?? 0;
+  const cartItemCount = cartQueryResult.data?.items?.reduce((count, item) => count + item.quantity, 0) ?? 0;
 
   function submitSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -146,6 +146,7 @@ function SiteHeader({
           <Link to={user ? "/profile" : "/login"}>{user ? user.name : <><LogIn aria-hidden="true" />Entrar</>}</Link>
         </Button>
       </div>
+      {cartQueryResult.isError && <p className="header-error" role="alert">Não foi possível carregar o carrinho. Confira a configuração da API.</p>}
       {searchOpen && (
         <form className="search-panel" role="search" onSubmit={submitSearch}>
           <label className="sr-only" htmlFor="site-search">Buscar no mercado</label>

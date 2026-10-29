@@ -10,9 +10,9 @@ export function RouteHeader() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: session } = useQuery(sessionQuery);
-  const { data: cart } = useQuery(cartQuery);
+  const { data: cart, isError: cartError } = useQuery(cartQuery);
   const [logoutError, setLogoutError] = useState("");
-  const itemCount = cart?.items.reduce((count, item) => count + item.quantity, 0) ?? 0;
+  const itemCount = cart?.items?.reduce((count, item) => count + item.quantity, 0) ?? 0;
   const logoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: async () => {
@@ -44,6 +44,7 @@ export function RouteHeader() {
         </Button>}
       </div>
       {logoutError && <p className="header-error" role="alert">{logoutError}</p>}
+      {cartError && <p className="header-error" role="alert">Não foi possível carregar o carrinho. Confira a configuração da API.</p>}
     </header>
   );
 }

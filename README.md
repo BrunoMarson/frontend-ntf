@@ -37,11 +37,7 @@ Para usar serviços externos, configure `VITE_API_URL` e `VITE_SOCKET_URL` em `.
 
 1. Crie no GitHub um repositório seu para este projeto e envie os arquivos do projeto, sem `node_modules` ou `dist`.
 2. Na Vercel, escolha **Add New → Project**, conecte sua conta GitHub e importe esse repositório.
-3. Use estas configurações de build:
-   - Framework preset: **Vite**
-   - Build command: `npm run build:mock`
-   - Output directory: `dist`
-   - Install command: `npm install`
+3. Mantenha o Framework Preset como **Vite** e o Install Command como `npm install`. O `vercel.json` configura a build mock (`npm run build:mock`) e a pasta de saída (`dist`).
 4. Clique em **Deploy**. O `vercel.json` configura o fallback das rotas da aplicação; depois do deploy, a Vercel mostrará a URL pública.
 
 Não é necessário cadastrar variáveis de ambiente para a demonstração: `build:mock` ativa a API simulada. Essa publicação usa dados e autenticação fictícios, não pagamentos reais nem Socket.IO de produção.
