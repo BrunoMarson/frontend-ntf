@@ -24,7 +24,10 @@ const authenticatedRoute = createRoute({
   beforeLoad: async ({ location }) => {
     const session = await queryClient.ensureQueryData(sessionQuery);
     if (!session) {
-      throw redirect({ to: "/login", search: { redirect: location.href } });
+      throw redirect({
+        to: "/login",
+        search: (previous) => ({ ...previous, redirect: location.href }),
+      });
     }
   },
   component: Outlet,
@@ -102,10 +105,10 @@ const registerRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
-  detailRoute,
-  cartRoute,
   loginRoute,
   registerRoute,
+  detailRoute,
+  cartRoute,
   authenticatedRoute.addChildren([checkoutRoute, orderRoute, profileRoute, walletsRoute]),
 ]);
 

@@ -91,7 +91,7 @@ export function ArtworkDetailPage() {
     </Button>
   ) : (
     <Button asChild variant="outline">
-      <Link to="/login" search={{ redirect: `/nft/${artworkId}` }}>
+      <Link to="/login" search={(previous) => ({ ...previous, redirect: `/nft/${artworkId}` })}>
         <Heart aria-hidden="true" />Entrar para favoritar
       </Link>
     </Button>

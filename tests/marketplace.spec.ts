@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 async function signIn(page: import("@playwright/test").Page, destination: string) {
   await page.goto(`/login?redirect=${encodeURIComponent(destination)}`);
   await page.getByLabel("E-mail").fill("colecionador@kurio.test");
-  await page.getByLabel("Senha").fill("Kurio123!");
+  await page.getByLabel("Senha", { exact: true }).fill("Kurio123!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page).toHaveURL(new RegExp(destination.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 }
@@ -112,7 +112,7 @@ test("merges a guest cart at login and completes a confirmed purchase", async ({
 
   await expect(page).toHaveURL(/\/login/);
   await page.getByLabel("E-mail").fill("colecionador@kurio.test");
-  await page.getByLabel("Senha").fill("Kurio123!");
+  await page.getByLabel("Senha", { exact: true }).fill("Kurio123!");
   await page.getByRole("button", { name: "Entrar" }).click();
 
   await expect(page.getByRole("heading", { name: "Finalizar compra" })).toBeVisible();
@@ -134,7 +134,7 @@ test("refreshes a stale quote before allowing payment", async ({ page }) => {
   await page.getByRole("link", { name: "Ir para o pagamento" }).click();
   await expect(page).toHaveURL(/\/login/);
   await page.getByLabel("E-mail").fill("colecionador@kurio.test");
-  await page.getByLabel("Senha").fill("Kurio123!");
+  await page.getByLabel("Senha", { exact: true }).fill("Kurio123!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page.getByRole("heading", { name: "Finalizar compra" })).toBeVisible();
   await page.getByRole("button", { name: "Conectar carteira" }).click();
@@ -192,7 +192,7 @@ test("recovers a timed-out checkout without creating duplicate orders", async ({
   await page.getByRole("link", { name: "Ir para o pagamento" }).click();
   await expect(page).toHaveURL(/\/login/);
   await page.getByLabel("E-mail").fill("colecionador@kurio.test");
-  await page.getByLabel("Senha").fill("Kurio123!");
+  await page.getByLabel("Senha", { exact: true }).fill("Kurio123!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page.getByRole("heading", { name: "Finalizar compra" })).toBeVisible();
   await page.getByRole("button", { name: "Conectar carteira" }).click();
@@ -215,7 +215,7 @@ test("supports registration, session expiry, logout and switching collectors", a
   await page.goto("/register?redirect=%2Fprofile");
   await page.getByLabel("Nome completo").fill("Novo Colecionador");
   await page.getByLabel("E-mail").fill(email);
-  await page.getByLabel("Senha").fill("Colecionador2026!");
+  await page.getByLabel("Senha", { exact: true }).fill("Colecionador2026!");
   await setScenario(page, { name: "signup-conflict" });
   await page.getByRole("button", { name: "Criar conta" }).click();
   await expect(page.getByRole("alert")).toContainText("Este e-mail já possui uma conta.");
@@ -231,7 +231,7 @@ test("supports registration, session expiry, logout and switching collectors", a
   await page.reload();
   await expect(page).toHaveURL(/\/login/);
   await page.getByLabel("E-mail").fill("colecionador@kurio.test");
-  await page.getByLabel("Senha").fill("Kurio123!");
+  await page.getByLabel("Senha", { exact: true }).fill("Kurio123!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page.getByRole("heading", { name: "Meu perfil" })).toBeVisible();
 
@@ -239,7 +239,7 @@ test("supports registration, session expiry, logout and switching collectors", a
   await expect(page.getByRole("link", { name: "Entrar" })).toBeVisible();
   await page.goto("/login?redirect=%2Fwallets");
   await page.getByLabel("E-mail").fill("sara@kurio.test");
-  await page.getByLabel("Senha").fill("Nft2026!");
+  await page.getByLabel("Senha", { exact: true }).fill("Nft2026!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page).toHaveURL(/\/wallets/);
   await expect(page.locator(".wallet-card").getByText("Polygon")).toBeVisible();
@@ -264,7 +264,7 @@ test("persists favorites per collector and rolls back a failed favorite update",
   await page.getByRole("button", { name: "Sair" }).click();
   await page.goto("/login?redirect=%2Fnft%2Femerald-042");
   await page.getByLabel("E-mail").fill("sara@kurio.test");
-  await page.getByLabel("Senha").fill("Nft2026!");
+  await page.getByLabel("Senha", { exact: true }).fill("Nft2026!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page.getByRole("button", { name: "Favoritar" })).toHaveAttribute("aria-pressed", "false");
 });
@@ -324,7 +324,7 @@ test("recovers pending orders from Socket.IO and does not regress on an old even
   await page.getByRole("link", { name: "Ir para o pagamento" }).click();
   await expect(page).toHaveURL(/\/login/);
   await page.getByLabel("E-mail").fill("colecionador@kurio.test");
-  await page.getByLabel("Senha").fill("Kurio123!");
+  await page.getByLabel("Senha", { exact: true }).fill("Kurio123!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page.getByRole("heading", { name: "Finalizar compra" })).toBeVisible();
   await page.getByRole("button", { name: "Conectar carteira" }).click();
@@ -377,7 +377,7 @@ test("keeps a declined payment in the cart and handles wallet refusal and discon
   await page.getByRole("link", { name: "Ir para o pagamento" }).click();
   await expect(page).toHaveURL(/\/login/);
   await page.getByLabel("E-mail").fill("colecionador@kurio.test");
-  await page.getByLabel("Senha").fill("Kurio123!");
+  await page.getByLabel("Senha", { exact: true }).fill("Kurio123!");
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page.getByRole("heading", { name: "Finalizar compra" })).toBeVisible();
 
@@ -420,13 +420,41 @@ test("keeps all required viewport widths free of horizontal overflow", async ({ 
 test("supports keyboard navigation through account forms", async ({ page }) => {
   await page.goto("/login");
   const email = page.getByLabel("E-mail");
-  const password = page.getByLabel("Senha");
+  const password = page.getByLabel("Senha", { exact: true });
   for (let tab = 0; tab < 20 && !(await email.evaluate((element) => element === document.activeElement)); tab += 1) {
     await page.keyboard.press("Tab");
   }
   await expect(email).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(password).toBeFocused();
+});
+
+test("shows the login as a dismissible marketplace modal with working controls", async ({ page }) => {
+  await page.goto("/login");
+  const dialog = page.getByRole("dialog", { name: "Entrar" });
+
+  await expect(page.getByRole("heading", { name: "SEJA DONO DO FUTURO DA ARTE DIGITAL" })).toBeVisible();
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByText("Entre para gerenciar sua carteira, coleção e perfil de criador.")).toBeVisible();
+  await expect(dialog.getByLabel("E-mail")).toBeVisible();
+  await expect(dialog.getByLabel("Senha", { exact: true })).toHaveAttribute("type", "password");
+
+  await dialog.getByRole("button", { name: "Mostrar senha" }).click();
+  await expect(dialog.getByLabel("Senha", { exact: true })).toHaveAttribute("type", "text");
+  await dialog.getByRole("button", { name: "Ocultar senha" }).click();
+  await dialog.getByRole("button", { name: "Esqueceu a senha?" }).click();
+  await expect(dialog.getByRole("status")).toContainText("A recuperação de senha ainda não está disponível");
+  await dialog.getByRole("button", { name: "Continuar com Google" }).click();
+  await expect(dialog.getByRole("status")).toContainText("O acesso com Google não está disponível");
+
+  await dialog.getByRole("link", { name: "Criar conta" }).click();
+  await expect(page).toHaveURL(/\/register/);
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByLabel("Nome completo")).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(page).toHaveURL((url) => url.pathname === "/");
 });
 
 test("shows recoverable empty search results", async ({ page }) => {

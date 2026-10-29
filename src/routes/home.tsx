@@ -571,7 +571,7 @@ export function HomePage() {
   return (
     <>
       <SiteHeader
-        initialSearch={routeSearch.search}
+        initialSearch={routeSearch.search ?? ""}
         onSearch={(search) => {
           void navigate({ search: (previous) => ({ ...previous, search, page: 1 }) });
         }}
@@ -583,6 +583,17 @@ export function HomePage() {
         <Journal />
       </main>
       <SiteFooter />
+    </>
+  );
+}
+
+export function HomeBackdrop() {
+  return (
+    <>
+      <SiteHeader initialSearch="" onSearch={() => undefined} />
+      <main>
+        <Hero />
+      </main>
     </>
   );
 }

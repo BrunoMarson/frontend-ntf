@@ -30,7 +30,7 @@ export function RouteHeader() {
         <Link to="/cart">Carrinho</Link>
         {session && <Link to="/profile">Meu perfil</Link>}
         {session && <Link to="/wallets">Carteiras</Link>}
-        {!session && <Link to="/login" search={{ redirect: "/" }}>Entrar</Link>}
+        {!session && <Link to="/login" search={(previous) => ({ ...previous, redirect: "/" })}>Entrar</Link>}
       </nav>
       <div className="route-header-actions">
         <Button asChild variant="outline" size="sm">
