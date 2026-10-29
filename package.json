@@ -1,0 +1,48 @@
+{
+  "name": "kurio-marketplace",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:mock": "tsc -b && vite build --mode mock",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --pretty",
+    "test:e2e": "playwright test",
+    "test:visual": "playwright test --grep @visual",
+    "audit:lighthouse": "lighthouse http://127.0.0.1:4173 --chrome-flags=\"--headless\" --output=html --output-path=./lighthouse-report.html"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tanstack/react-query": "^5.90.2",
+    "@tanstack/react-router": "^1.132.0",
+    "axios": "^1.11.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "socket.io-client": "^4.8.1",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/node": "^22.15.30",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.4",
+    "lighthouse": "^12.8.2",
+    "msw": "^2.11.3",
+    "socket.io": "^4.8.1",
+    "tailwindcss": "^4.1.14",
+    "typescript": "~5.9.2",
+    "vite": "^7.1.9"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}
